@@ -1,4 +1,4 @@
-FROM node:16-alpine
+FROM node:16-alpine AS builder
 
 WORKDIR '/app'
 
@@ -12,10 +12,10 @@ CMD npm run build
 
 
 
-FROM nginx
+FROM nginx:latest
 
 EXPOSE 80
 
-COPY --from=0 /app/build /usr/share/nginx/html 
+COPY --from=builder /app/build /usr/share/nginx/html 
 
 
